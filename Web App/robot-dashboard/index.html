@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Robot Control</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #0f172a;
+      color: white;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 15px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    button {
+      height: 80px;
+      font-size: 20px;
+      border: none;
+      border-radius: 15px;
+      background: #1e293b;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    button:active {
+      background: #38bdf8;
+    }
+
+    .stop {
+      background: #ef4444;
+    }
+
+    .slider {
+      margin-top: 30px;
+    }
+
+    input[type=range] {
+      width: 250px;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #38bdf8;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🤖 Robot Controller</h1>
+
+<div class="grid">
+  <div></div>
+  <button onclick="send('F')">⬆️</button>
+  <div></div>
+
+  <button onclick="send('L')">⬅️</button>
+  <button class="stop" onclick="send('S')">⛔</button>
+  <button onclick="send('R')">➡️</button>
+
+  <div></div>
+  <button onclick="send('B')">⬇️</button>
+  <div></div>
+</div>
+
+<div class="slider">
+  <p>Speed</p>
+  <input type="range" min="0" max="255" value="200" id="speedSlider">
+</div>
+
+<div class="status" id="status">Disconnected</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+
+  // 🔑 YOUR CONFIG HERE
+  const firebaseConfig = {
+    apiKey: "AIzaSyBaNpj3dAiUo4LvqWuhFgN1Mf_Ot_ME9YI",
+    databaseURL: "https://autonomous-scarecrow-robot-default-rtdb.firebaseio.com"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const statusText = document.getElementById("status");
+
+  // Send command
+  window.send = function(cmd) {
+    set(ref(db, 'robot/command'), cmd);
+    statusText.innerText = "Sent: " + cmd;
+  }
+
+  // Speed control
+  const slider = document.getElementById("speedSlider");
+  slider.oninput = function() {
+    set(ref(db, 'robot/speed'), parseInt(this.value));
+  }
+
+  // Connection status listener
+  onValue(ref(db, '.info/connected'), (snap) => {
+    if (snap.val() === true) {
+      statusText.innerText = "🟢 Connected";
+    } else {
+      statusText.innerText = "🔴 Disconnected";
+    }
+  });
+
+  // 🎮 Keyboard controls
+  document.addEventListener("keydown", (e) => {
+    switch(e.key.toLowerCase()) {
+      case 'w': send('F'); break;
+      case 's': send('B'); break;
+      case 'a': send('L'); break;
+      case 'd': send('R'); break;
+      case ' ': send('S'); break;
+    }
+  });
+
+</script>
+
+</body>
+</html>
