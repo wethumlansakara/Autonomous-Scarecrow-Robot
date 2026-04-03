@@ -2,12 +2,12 @@
 #include <Firebase_ESP_Client.h>
 
 // WiFi credentials
-#define WIFI_SSID "YOUR_WIFI_NAME"
-#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+#define WIFI_SSID "HONOR X6b"
+#define WIFI_PASSWORD "12345677"
 
 // Firebase credentials
-#define API_KEY "YOUR_FIREBASE_API_KEY"
-#define DATABASE_URL "YOUR_DATABASE_URL"
+#define API_KEY "AIzaSyBaNpj3dAiUo4LvqWuhFgN1Mf_Ot_ME9YI"
+#define DATABASE_URL "https://autonomous-scarecrow-robot-default-rtdb.firebaseio.com"
 
 // Firebase objects
 FirebaseData fbdo;

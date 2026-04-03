@@ -81,6 +81,7 @@
   <input type="range" min="0" max="255" value="200" id="speedSlider">
 </div>
 
+<div class="status" id="robotState">Command: - | Speed: 200</div>
 <div class="status" id="status">Disconnected</div>
 
 <script type="module">
@@ -97,6 +98,15 @@
   const db = getDatabase(app);
 
   const statusText = document.getElementById("status");
+  const robotStateText = document.getElementById("robotState");
+  const commandRef = ref(db, 'robot/command');
+  const speedRef = ref(db, 'robot/speed');
+  let currentCommand = '-';
+  let currentSpeed = 200;
+
+  function renderRobotState() {
+    robotStateText.innerText = "Command: " + currentCommand + " | Speed: " + currentSpeed;
+  }
 
   // Send command
   window.send = function(cmd) {
@@ -109,6 +119,24 @@
   slider.oninput = function() {
     set(ref(db, 'robot/speed'), parseInt(this.value));
   }
+
+  // Live sync UI from Firebase changes (including external updates)
+  onValue(commandRef, (snap) => {
+    const value = snap.val();
+    if (typeof value === 'string' && value.length > 0) {
+      currentCommand = value;
+      renderRobotState();
+    }
+  });
+
+  onValue(speedRef, (snap) => {
+    const value = snap.val();
+    if (typeof value === 'number') {
+      currentSpeed = value;
+      slider.value = value;
+      renderRobotState();
+    }
+  });
 
   // Connection status listener
   onValue(ref(db, '.info/connected'), (snap) => {
