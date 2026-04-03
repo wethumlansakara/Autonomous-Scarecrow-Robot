@@ -1,0 +1,70 @@
+:root {
+  color-scheme: dark;
+}
+
+.app {
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin-top: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 15px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+button {
+  height: 80px;
+  font-size: 20px;
+  border: none;
+  border-radius: 15px;
+  background: #1e293b;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+button:active {
+  background: #38bdf8;
+}
+
+.stop {
+  background: #ef4444;
+}
+
+.slider {
+  margin-top: 30px;
+}
+
+input[type="range"] {
+  width: 250px;
+}
+
+.status {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #38bdf8;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(3, 80px);
+    gap: 10px;
+  }
+
+  button {
+    height: 70px;
+    font-size: 18px;
+  }
+}
