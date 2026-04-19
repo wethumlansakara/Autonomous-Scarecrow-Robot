@@ -1,70 +1,185 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap");
+
 :root {
-  color-scheme: dark;
+  --bg-top: #fef3c7;
+  --bg-bottom: #fed7aa;
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-border: rgba(255, 255, 255, 0.8);
+  --text: #1f2937;
+  --muted: #4b5563;
+  --accent: #ea580c;
+  --accent-strong: #c2410c;
+  --danger: #dc2626;
+  --ok: #15803d;
+  --shadow: 0 14px 40px rgba(120, 53, 15, 0.18);
 }
 
-.app {
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: #0f172a;
-  color: #ffffff;
-  padding: 20px;
+* {
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Outfit", "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 16% 22%, rgba(251, 191, 36, 0.34), transparent 38%),
+    radial-gradient(circle at 84% 8%, rgba(251, 146, 60, 0.28), transparent 36%),
+    linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+}
+
+.app {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 16px 36px;
+}
+
 h1 {
-  margin-top: 10px;
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  margin: 8px 0 20px;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
-  gap: 15px;
+  grid-template-columns: repeat(3, minmax(56px, 92px));
+  gap: 10px;
   justify-content: center;
-  margin-top: 40px;
 }
 
 button {
-  height: 80px;
-  font-size: 20px;
   border: none;
-  border-radius: 15px;
-  background: #1e293b;
+  border-radius: 14px;
+  padding: 12px;
+  min-height: 56px;
+  font-size: 1rem;
+  font-weight: 700;
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 8px 18px rgba(194, 65, 12, 0.3);
   cursor: pointer;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+button:hover {
+  filter: brightness(1.06);
 }
 
 button:active {
-  background: #38bdf8;
+  transform: translateY(1px) scale(0.99);
 }
 
-.stop {
-  background: #ef4444;
+button.stop {
+  background: linear-gradient(180deg, #ef4444, #b91c1c);
+  box-shadow: 0 8px 18px rgba(185, 28, 28, 0.34);
 }
 
-.slider {
-  margin-top: 30px;
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(110px, 1fr));
+  gap: 10px;
 }
 
-input[type="range"] {
-  width: 250px;
+.segmented .active {
+  outline: 3px solid rgba(251, 191, 36, 0.86);
+  outline-offset: 1px;
 }
 
-.status {
-  margin-top: 20px;
-  font-size: 14px;
-  color: #38bdf8;
+.slider input[type="range"] {
+  width: 100%;
 }
 
-@media (max-width: 480px) {
+.value {
+  margin: 8px 0 0;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.chip {
+  margin: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  font-weight: 600;
+}
+
+.chip.danger {
+  color: #ffffff;
+  background: linear-gradient(180deg, #f97316, #dc2626);
+  border-color: transparent;
+}
+
+.chip.active {
+  color: #ffffff;
+  background: linear-gradient(180deg, #22c55e, var(--ok));
+  border-color: transparent;
+}
+
+.summary {
+  display: grid;
+  gap: 4px;
+}
+
+.summary p {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+@media (max-width: 680px) {
+  .chips {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 460px) {
+  .app {
+    padding: 18px 12px 26px;
+  }
+
   .grid {
-    grid-template-columns: repeat(3, 80px);
-    gap: 10px;
+    grid-template-columns: repeat(3, minmax(50px, 1fr));
   }
 
   button {
-    height: 70px;
-    font-size: 18px;
+    min-height: 52px;
+  }
+
+  .segmented {
+    grid-template-columns: 1fr;
   }
 }
