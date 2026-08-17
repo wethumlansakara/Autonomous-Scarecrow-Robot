@@ -1,0 +1,10 @@
+# Secrets
+code/ESP32/secrets.h
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
